@@ -14,6 +14,7 @@ export enum Status {
 export type ProductProps = {
   sku: SkuObjectValue;
   name: string;
+  description: string;
   categoryId: UniqueEntityID;
   status: Status;
   price: number;
@@ -30,12 +31,20 @@ export class Product extends AggregateRoot<ProductProps> {
     return this.props.name;
   }
 
+  get description() {
+    return this.props.description;
+  }
+
   get categoryId() {
     return this.props.categoryId.toString();
   }
 
   get price() {
     return this.props.price;
+  }
+
+  get status() {
+    return this.props.status;
   }
 
   get createdAt() {

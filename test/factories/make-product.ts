@@ -18,6 +18,7 @@ export function makeProduct(
         categoryName: faker.book.author(),
       }),
       name: faker.commerce.productName(),
+      description: faker.commerce.productDescription(),
       categoryId: new UniqueEntityID(faker.internet.ip()),
       price: Number(faker.commerce.price()),
       ...override,

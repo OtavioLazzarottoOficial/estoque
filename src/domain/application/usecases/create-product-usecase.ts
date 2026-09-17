@@ -10,6 +10,7 @@ import { SkuObjectValue } from '../../enterprise/entities/value-objects/sku-valu
 
 type CreateProductUseCaseRequestDTO = {
   name: string;
+  description: string;
   price: number;
   categoryId: string;
   status: Status;
@@ -34,6 +35,7 @@ export class CreateProductUseCase {
     price,
     categoryId,
     status,
+    description,
   }: CreateProductUseCaseRequestDTO): Promise<CreateProductUseCaseResponse> {
     const category = await this.categoriesRepository.findById(categoryId);
 
@@ -49,6 +51,7 @@ export class CreateProductUseCase {
     const productOrError = Product.create({
       categoryId: new UniqueEntityID(categoryId),
       name,
+      description,
       price,
       sku,
       status,

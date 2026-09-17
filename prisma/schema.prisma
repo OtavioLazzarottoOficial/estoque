@@ -1,0 +1,92 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Admin {
+  ADMIN
+  WAREHOUSE
+  USER
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
+  OUT_OF_STOCK
+}
+
+enum Reason {
+  OUTPUT
+  INPUT
+}
+
+model User {
+  id             String          @id @default(uuid())
+  name           String
+  email          String          @unique
+  password       String
+  role           Admin
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime        @updatedAt @map("updated_at")
+  stockMovements StockMovement[]
+}
+
+model Category {
+  id           String    @id @default(uuid())
+  name         String
+  descriptions String
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+  products     Product[]
+}
+
+model Product {
+  id             String          @id @default(uuid())
+  sku            String          @unique
+  name           String
+  description    String
+  price          Float
+  status         Status
+  category_Id    String
+  category       Category        @relation(fields: [category_Id], references: [id])
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime        @updatedAt @map("updated_at")
+  stocks         Stock[]
+  stockMovements StockMovement[]
+}
+
+model Stock {
+  id              String          @id @default(uuid())
+  product_Id      String
+  product         Product         @relation(fields: [product_Id], references: [id])
+  quantityInStock Int
+  quantityMax     Int
+  quantityMin     Int
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+  stockMovements  StockMovement[]
+}
+
+model StockMovement {
+  id         String   @id @default(uuid())
+  product_Id String
+  quantity   Int
+  user_id    String
+  stock_id   String
+  reason     Reason
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  product Product @relation(fields: [product_Id], references: [id])
+  user    User    @relation(fields: [user_id], references: [id])
+  stock   Stock   @relation(fields: [stock_id], references: [id])
+}

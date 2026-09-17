@@ -29,6 +29,7 @@ describe('Create Product Use Case', () => {
     const result = await sut.execute({
       name: 'Teclado',
       categoryId: 'Cat-2',
+      description: 'Teclado mecânico',
       price: 100,
       status: Status.ACTIVE,
     });
@@ -45,6 +46,7 @@ describe('Create Product Use Case', () => {
     const result = await sut.execute({
       name: 'Teclado',
       categoryId: category.id.toString(),
+      description: 'Teclado mecânico',
       price: -1,
       status: Status.ACTIVE,
     });
@@ -61,6 +63,7 @@ describe('Create Product Use Case', () => {
     const result = await sut.execute({
       name: 'Teclado',
       categoryId: category.id.toString(),
+      description: 'Teclado mecânico',
       price: 100,
       status: Status.ACTIVE,
     });
