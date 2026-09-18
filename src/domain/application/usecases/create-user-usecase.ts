@@ -7,8 +7,7 @@ import { Roles, User } from '../../enterprise/entities/user';
 import { ExistUserWithThisEmailError } from './errors/exist-user-with-this-email-error';
 import { EmailValueObject } from '../../enterprise/entities/value-objects/email-value-object';
 import { PasswordValueObject } from '../../enterprise/entities/value-objects/password-value-object';
-import { Encrypter } from '../crypthograpy/encrypter';
-
+import { HashGenerator } from '../crypthograpy/hash-generator';
 type CreateUserUseCaseRequestDTO = {
   name: string;
   email: string;
@@ -27,7 +26,7 @@ type CreateUserUseCaseResponse = Either<
 export class CreateUserUseCase {
   constructor(
     private usersRepository: UsersRepository,
-    private encrypter: Encrypter,
+    private hashGenerator: HashGenerator,
   ) {}
 
   async execute({
@@ -55,7 +54,7 @@ export class CreateUserUseCase {
       return left(passwordOrError.value);
     }
 
-    const passwordHash = await this.encrypter.encrypt(
+    const passwordHash = await this.hashGenerator.hash(
       passwordOrError.value.value,
     );
 

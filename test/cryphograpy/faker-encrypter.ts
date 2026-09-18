@@ -1,7 +1,8 @@
-import { Encrypter } from '../../src/domain/application/crypthograpy/encrypter';
+import { HashComparer } from '../../src/domain/application/crypthograpy/hash-comparer';
+import { HashGenerator } from '../../src/domain/application/crypthograpy/hash-generator';
 
-export class FakerEncrypter implements Encrypter {
-  async encrypt(value: string): Promise<string> {
+export class FakerEncrypter implements HashGenerator, HashComparer {
+  async hash(value: string): Promise<string> {
     await new Promise((resolve) => setTimeout(resolve, 0));
     return `hashed-${value}`;
   }
