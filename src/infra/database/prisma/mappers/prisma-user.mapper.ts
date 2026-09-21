@@ -1,17 +1,26 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id';
-import { Roles, User } from '@/domain/enterprise/entities/user';
-import { Prisma, User as PrismaUser } from '@/generated/prisma/client';
+import { UniqueEntityID } from '../../../../core/entities/unique-entity-id';
+import {
+  Roles as RolesDomain,
+  User,
+} from '../../../../domain/enterprise/entities/user';
+import { EmailValueObject } from '../../../../domain/enterprise/entities/value-objects/email-value-object';
+import { PasswordValueObject } from '../../../../domain/enterprise/entities/value-objects/password-value-object';
+import {
+  Prisma,
+  Roles,
+  User as PrismaUser,
+} from '../../../../generated/prisma/client';
 
 export class PrismaUserMapper {
   static toDomain(raw: PrismaUser) {
     return User.create(
       {
         name: raw.name,
-        username: raw.username,
-        password: raw.password,
-        roles: raw.role as Roles,
-        active: raw.active,
+        email: EmailValueObject.createFromBD(raw.email),
+        password: PasswordValueObject.createFromHash(raw.password),
+        role: raw.role as RolesDomain,
         createdAt: raw.createdAt,
+        updatedAt: raw.updatedAt,
       },
       new UniqueEntityID(raw.id),
     );
@@ -21,12 +30,12 @@ export class PrismaUserMapper {
     return {
       id: user.id.toString(),
       name: user.name,
-      username: user.username,
+      email: user.email,
       password: user.password,
-      role: user.roles,
-      active: user.active,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      role: user.role as unknown as Roles,
       createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
+      updatedAt: user.updatedAt ? user.updatedAt : undefined,
     };
   }
 }
