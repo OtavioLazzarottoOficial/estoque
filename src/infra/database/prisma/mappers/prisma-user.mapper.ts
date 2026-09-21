@@ -32,7 +32,7 @@ export class PrismaUserMapper {
       name: user.name,
       email: user.email,
       password: user.password,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       role: user.role as unknown as Roles,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt ? user.updatedAt : undefined,

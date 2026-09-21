@@ -1,9 +1,11 @@
+import { Injectable } from '@nestjs/common';
 import { PaginationParams } from '../../../../core/repositories/pagination-params';
 import { UsersRepository } from '../../../../domain/application/repositories/users-repository';
 import { User } from '../../../../domain/enterprise/entities/user';
 import { PrismaUserMapper } from '../mappers/prisma-user.mapper';
 import { PrismaService } from '../prisma.service';
 
+@Injectable()
 export class PrismaUsersRepository implements UsersRepository {
   constructor(private prisma: PrismaService) {}
   save(user: User): Promise<void> {
