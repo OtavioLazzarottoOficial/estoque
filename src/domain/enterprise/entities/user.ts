@@ -5,9 +5,9 @@ import { EmailValueObject } from './value-objects/email-value-object';
 import { PasswordValueObject } from './value-objects/password-value-object';
 
 export enum Roles {
-  ADMIN = 'Admin',
-  WAREHOUSE = 'Warehouse',
-  USER = 'User',
+  ADMIN = 'ADMIN',
+  WAREHOUSE = 'WAREHOUSE',
+  USER = 'USER',
 }
 
 export type UserProps = {

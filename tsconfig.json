@@ -21,9 +21,11 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "test/*": ["./test/*"]
+      "@/*": ["./src/*"]
     },
-    "types": ["vitest/globals"]
+    "types": [
+      "vitest/globals"
+    ]
   },
   "exclude": ["node_modules", "dist", "frontend"]
 }
