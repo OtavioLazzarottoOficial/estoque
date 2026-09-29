@@ -8,5 +8,6 @@ export abstract class ProductsRepository {
   abstract save(product: Product): Promise<void>;
   abstract delete(product: Product): Promise<void>;
   abstract findById(id: string): Promise<Product | null>;
+  abstract findByName(name: string): Promise<Product | null>;
   abstract findManyRecent(params: PaginationParams): Promise<Product[]>;
 }

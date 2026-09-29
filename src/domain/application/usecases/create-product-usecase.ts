@@ -7,17 +7,20 @@ import { ProductsRepository } from '../repositories/products-repository';
 import { CategoriesRepository } from '../repositories/categories-repository';
 import { UniqueEntityID } from '../../../core/entities/unique-entity-id';
 import { SkuObjectValue } from '../../enterprise/entities/value-objects/sku-value-object';
+import { ProductWithNameExists } from './errors/product-with-name-exists-error';
 
 type CreateProductUseCaseRequestDTO = {
   name: string;
   description: string;
   price: number;
   categoryId: string;
-  status: Status;
+  status?: Status;
 };
 
 type CreateProductUseCaseResponse = Either<
-  QuantityCannotBeLessThanZeroError | ResourceNotFoundError,
+  | QuantityCannotBeLessThanZeroError
+  | ResourceNotFoundError
+  | ProductWithNameExists,
   {
     product: Product;
   }
@@ -41,6 +44,12 @@ export class CreateProductUseCase {
 
     if (!category) {
       return left(new ResourceNotFoundError());
+    }
+
+    const existProductWithName = await this.productsRepository.findByName(name);
+
+    if (existProductWithName) {
+      return left(new ProductWithNameExists(name));
     }
 
     const sku = SkuObjectValue.create({

@@ -5,8 +5,8 @@ import { Optional } from '../../../core/types/optional';
 import { QuantityCannotBeLessOrEqualThanZeroError } from './errors/quantity-cannot-be-less-or-equal-than-zero-error';
 
 export enum Reason {
-  OUTPUT = 'Output',
-  INPUT = 'Input',
+  OUTPUT = 'OUTPUT',
+  INPUT = 'INPUT',
 }
 
 export type StockMovementProps = {

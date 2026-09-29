@@ -26,7 +26,12 @@ export class CategoriesInMemoryRepository implements CategoriesRepository {
     await new Promise((resolve) => {
       setTimeout(resolve, 0);
     });
+
+    const index = this.items.findIndex((item) => item.id === category.id);
+
+    this.items.splice(index, 1);
   }
+  
   async findById(id: string): Promise<Category | null> {
     await new Promise((resolve) => {
       setTimeout(resolve, 0);
@@ -41,9 +46,15 @@ export class CategoriesInMemoryRepository implements CategoriesRepository {
     return category;
   }
 
-  async findManyRecent(params: PaginationParams): Promise<Category[]> {
+  async findManyRecent({ page }: PaginationParams): Promise<Category[]> {
     await new Promise((resolve) => {
       setTimeout(resolve, 0);
     });
+
+    const categories = this.items
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+      .slice((page - 1) * 20, page * 20);
+
+    return categories;
   }
 }

@@ -1,14 +1,14 @@
-import { UniqueEntityID } from '../../../core/entities/unique-entity-id';
-import { ResourceNotFoundError } from './errors/resource-not-found-error';
-import { UsersInMemoryRepository } from 'test/in-memory/users-in-memory-repository';
 import { CreateUserUseCase } from './create-user-usecase';
-import { FakerEncrypter } from 'test/cryphograpy/faker-encrypter';
-import { Roles, User } from '../../enterprise/entities/user';
+
+import { Roles } from '../../enterprise/entities/user';
 import { EmailInvalidError } from '../../enterprise/entities/value-objects/errors/email-invalid-error';
-import { makeUser } from 'test/factories/make-user';
+
 import { EmailValueObject } from '../../enterprise/entities/value-objects/email-value-object';
 import { ExistUserWithThisEmailError } from './errors/exist-user-with-this-email-error';
 import { InvalidPasswordError } from '../../enterprise/entities/value-objects/errors/invalid-password-error';
+import { UsersInMemoryRepository } from '../../../../test/in-memory/users-in-memory-repository';
+import { FakerEncrypter } from '../../../../test/cryphograpy/faker-encrypter';
+import { makeUser } from '../../../../test/factories/make-user';
 
 let usersInMemoryRepository: UsersInMemoryRepository;
 let encrypter: FakerEncrypter;

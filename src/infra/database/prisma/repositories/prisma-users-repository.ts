@@ -8,14 +8,35 @@ import { PrismaService } from '../prisma.service';
 @Injectable()
 export class PrismaUsersRepository implements UsersRepository {
   constructor(private prisma: PrismaService) {}
-  save(user: User): Promise<void> {
-    throw new Error('Method not implemented.');
+
+  async save(user: User): Promise<void> {
+    const data = PrismaUserMapper.toPrisma(user);
+
+    await this.prisma.user.upsert({
+      where: { id: data.id },
+      create: data,
+      update: data,
+    });
   }
-  delete(user: User): Promise<void> {
-    throw new Error('Method not implemented.');
+  async delete(user: User): Promise<void> {
+    const data = PrismaUserMapper.toPrisma(user);
+
+    await this.prisma.user.delete({
+      where: { id: data.id },
+    });
   }
-  findManyRecent(params: PaginationParams): Promise<User[]> {
-    throw new Error('Method not implemented.');
+
+  async findManyRecent({ page }: PaginationParams): Promise<User[]> {
+    const users = await this.prisma.user.findMany({
+      orderBy: {
+        createdAt: 'asc',
+      },
+      skip: (page - 1) * 10,
+      take: 10,
+    });
+
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    return users.map(PrismaUserMapper.toDomain);
   }
 
   async create(user: User): Promise<void> {

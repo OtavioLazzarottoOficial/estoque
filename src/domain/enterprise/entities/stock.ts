@@ -69,7 +69,7 @@ export class Stock extends AggregateRoot<StockProps> {
     quantity: number,
   ): Either<
     | QuantityCannotBeLessOrEqualThanZeroError
-    | QuantityCannotBeMoreThanQuantityMaxError,
+    | QuantityCannotBeLessThanQuantityMinError,
     null
   > {
     if (quantity <= 0) {

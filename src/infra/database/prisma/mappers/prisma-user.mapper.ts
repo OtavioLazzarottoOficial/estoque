@@ -7,7 +7,6 @@ import { EmailValueObject } from '../../../../domain/enterprise/entities/value-o
 import { PasswordValueObject } from '../../../../domain/enterprise/entities/value-objects/password-value-object';
 import {
   Prisma,
-  Roles,
   User as PrismaUser,
 } from '../../../../generated/prisma/client';
 
@@ -32,8 +31,7 @@ export class PrismaUserMapper {
       name: user.name,
       email: user.email,
       password: user.password,
-
-      role: user.role as unknown as Roles,
+      role: user.role,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt ? user.updatedAt : undefined,
     };

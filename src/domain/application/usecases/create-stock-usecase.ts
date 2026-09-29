@@ -1,10 +1,12 @@
-import { Injectable } from '@nestjs/common';
-import { Either, left, right } from '../../../core/either';
-import { QuantityCannotBeLessOrEqualThanZeroError } from '../../enterprise/entities/errors/quantity-cannot-be-less-or-equal-than-zero-error';
-import { Stock } from '../../enterprise/entities/stock';
+import { Either, left, right } from '@/core/either';
+import { QuantityCannotBeLessOrEqualThanZeroError } from '@/domain/enterprise/entities/errors/quantity-cannot-be-less-or-equal-than-zero-error';
+import { QuantityMaxCannotBeLessThanQuantityMinError } from '@/domain/enterprise/entities/errors/quantity-max-cannot-be-less-than-quantity-min-error';
+import { QuantityMinCannotBeMoreThanQuantityMaxError } from '@/domain/enterprise/entities/errors/quantity-min-cannot-be-more-than-quantity-max-error';
+import { Stock } from '@/domain/enterprise/entities/stock';
 import { ResourceNotFoundError } from './errors/resource-not-found-error';
-import { StocksRepository } from '../repositories/stocks-repository';
+import { Injectable } from '@nestjs/common';
 import { ProductsRepository } from '../repositories/products-repository';
+import { StocksRepository } from '../repositories/stocks-repository';
 
 type CreateStockUseCaseRequestDTO = {
   productId: string;
@@ -14,24 +16,25 @@ type CreateStockUseCaseRequestDTO = {
 };
 
 type CreateStockUseCaseResponse = Either<
-  ResourceNotFoundError | QuantityCannotBeLessOrEqualThanZeroError,
-  {
-    stock: Stock;
-  }
+  | ResourceNotFoundError
+  | QuantityCannotBeLessOrEqualThanZeroError
+  | QuantityMinCannotBeMoreThanQuantityMaxError
+  | QuantityMaxCannotBeLessThanQuantityMinError,
+  { stock: Stock }
 >;
 
-Injectable();
+@Injectable()
 export class CreateStockUseCase {
   constructor(
-    private stocksRepository: StocksRepository,
     private productsRepository: ProductsRepository,
+    private stocksRepository: StocksRepository,
   ) {}
 
   async execute({
     productId,
+    quantityInStock,
     quantityMax,
     quantityMin,
-    quantityInStock,
   }: CreateStockUseCaseRequestDTO): Promise<CreateStockUseCaseResponse> {
     const product = await this.productsRepository.findById(productId);
 

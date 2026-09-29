@@ -5,8 +5,9 @@ import { CreateProductUseCase } from './create-product-usecase';
 import { UniqueEntityID } from '../../../core/entities/unique-entity-id';
 import { Status } from '../../enterprise/entities/product';
 import { ResourceNotFoundError } from './errors/resource-not-found-error';
-import { makeCategory } from 'test/factories/make-category';
+
 import { PriceCannotBeLessThanZeroError } from '../../enterprise/entities/errors/price-cannot-be-less-than-zero.error';
+import { makeCategory } from '../../../../test/factories/make-category';
 
 let productInMemoryRepository: ProductInMemoryRepository;
 let categoriesInMemoryRepository: CategoriesInMemoryRepository;

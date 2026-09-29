@@ -1,10 +1,10 @@
-import { StocksInMemoryRepository } from 'test/in-memory/stocks-in-memory-repository';
 import { ProductInMemoryRepository } from '../../../../test/in-memory/product-in-memory-repository';
 import { UniqueEntityID } from '../../../core/entities/unique-entity-id';
 import { ResourceNotFoundError } from './errors/resource-not-found-error';
+import { StocksInMemoryRepository } from '../../../../test/in-memory/stocks-in-memory-repository';
+import { makeProduct } from '../../../../test/factories/make-product';
 import { CreateStockUseCase } from './create-stock-usecase';
-import { makeProduct } from 'test/factories/make-product';
-import { QuantityCannotBeLessOrEqualThanZeroError } from '../../enterprise/entities/errors/quantity-cannot-be-less-or-equal-than-zero-error';
+import { QuantityCannotBeLessOrEqualThanZeroError } from '@/domain/enterprise/entities/errors/quantity-cannot-be-less-or-equal-than-zero-error';
 
 let productInMemoryRepository: ProductInMemoryRepository;
 let stocksInMemoryRepository: StocksInMemoryRepository;
@@ -14,8 +14,8 @@ describe('Create Product Use Case', () => {
     productInMemoryRepository = new ProductInMemoryRepository();
     stocksInMemoryRepository = new StocksInMemoryRepository();
     sut = new CreateStockUseCase(
-      stocksInMemoryRepository,
       productInMemoryRepository,
+      stocksInMemoryRepository,
     );
   });
 

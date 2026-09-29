@@ -24,4 +24,8 @@ export class SkuObjectValue extends ValueObject<SkuProps> {
 
     return new SkuObjectValue({ sku });
   }
+
+  static createFromDB(sku: string): SkuObjectValue {
+    return new SkuObjectValue({ sku });
+  }
 }

@@ -25,6 +25,19 @@ export class ProductInMemoryRepository implements ProductsRepository {
 
     this.items.splice(itemIdex, 1);
   }
+
+  async findByName(name: string): Promise<Product | null> {
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    const product = this.items.find((item) => item.name === name);
+
+    if (!product) {
+      return null;
+    }
+
+    return product;
+  }
+
   async findById(id: string): Promise<Product | null> {
     await new Promise((resolve) => setTimeout(resolve, 0));
 

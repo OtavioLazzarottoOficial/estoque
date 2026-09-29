@@ -2,6 +2,7 @@ import { Either, left, right } from '../../../core/either';
 import { AggregateRoot } from '../../../core/entities/aggregate-root';
 import { UniqueEntityID } from '../../../core/entities/unique-entity-id';
 import { Optional } from '../../../core/types/optional';
+import { Category } from './category';
 import { PriceCannotBeLessThanZeroError } from './errors/price-cannot-be-less-than-zero.error';
 import { SkuObjectValue } from './value-objects/sku-value-object';
 
@@ -16,6 +17,7 @@ export type ProductProps = {
   name: string;
   description: string;
   categoryId: UniqueEntityID;
+  category?: Category;
   status: Status;
   price: number;
   createdAt: Date;
@@ -45,6 +47,10 @@ export class Product extends AggregateRoot<ProductProps> {
 
   get status() {
     return this.props.status;
+  }
+
+  get category() {
+    return this.props.category ?? undefined;
   }
 
   get createdAt() {
