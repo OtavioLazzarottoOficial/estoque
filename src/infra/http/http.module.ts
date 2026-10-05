@@ -21,6 +21,8 @@ import { IncreaseInStockController } from './controllers/increase-in-stock.contr
 import { IncreaseInStockUseCase } from '@/domain/application/usecases/increase-in-stock-usecase';
 import { DecreaseInStockController } from './controllers/decrease-in-stock.controller';
 import { DecreaseInStockUseCase } from '@/domain/application/usecases/decrease-in-stock-usecase';
+import { FetchRecentsCategoriesController } from './controllers/fetch-recents-categories.controller';
+import { FetchRecentsCategoriesUseCase } from '@/domain/application/usecases/fetch-recents-categories.usecase';
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -31,6 +33,7 @@ import { DecreaseInStockUseCase } from '@/domain/application/usecases/decrease-i
     CreateCategoryController,
     CreateProductController,
     FetchRecentsProductsController,
+    FetchRecentsCategoriesController,
     CreateStockController,
     GetByIdProductController,
     IncreaseInStockController,
@@ -43,6 +46,7 @@ import { DecreaseInStockUseCase } from '@/domain/application/usecases/decrease-i
     CreateCategoryUseCase,
     CreateProductUseCase,
     FetchRecentsProductsUseCase,
+    FetchRecentsCategoriesUseCase,
     CreateStockUseCase,
     GetByIdProductUseCase,
     IncreaseInStockUseCase,
