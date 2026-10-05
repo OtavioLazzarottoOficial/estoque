@@ -21,8 +21,6 @@ export class FetchRecentsProductsController {
   @Get('/products')
   @Public()
   async handle(@Query() page: FetchRecentsProductsSchemaParams) {
-    console.log('FetchRecentsUsersController.handle', page);
-
     const result = await this.fetchRecentsProductsUseCase.execute(page);
 
     const { value } = result;
