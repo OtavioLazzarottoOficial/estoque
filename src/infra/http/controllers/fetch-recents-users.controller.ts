@@ -19,8 +19,6 @@ export class FetchRecentsUsersController {
   @Get('/users')
   @Public()
   async handle(@Query() page: FetchRecentsUsersSchemaParams) {
-    console.log('FetchRecentsUsersController.handle', page);
-
     const result = await this.fetchRecentsUsersUseCase.execute(page);
 
     const { value } = result;
