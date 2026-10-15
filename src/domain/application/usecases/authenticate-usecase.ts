@@ -42,7 +42,10 @@ export class AuthenticateUseCase {
       return left(new ResourceNotFoundError());
     }
 
-    const access_token = await this.encrypter.encrypty({ user_id: user.id });
+    const access_token = await this.encrypter.encrypty({
+      user_id: user.id,
+      user_email: user.email,
+    });
 
     return right({ access_token });
   }

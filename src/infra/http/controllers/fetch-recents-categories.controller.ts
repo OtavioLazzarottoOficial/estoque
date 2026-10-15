@@ -18,7 +18,7 @@ export class FetchRecentsCategoriesController {
     private fetchRecentsCategoriesUseCase: FetchRecentsCategoriesUseCase,
   ) {}
 
-  @Get('/Categories')
+  @Get('/categories')
   @Public()
   async handle(@Query() page: FetchRecentsCategoriesSchemaParams) {
     const result = await this.fetchRecentsCategoriesUseCase.execute(page);

@@ -29,8 +29,6 @@ export class AuthenticateController {
   async handle(@Body(BodySchemaValidation) body: AuthenticateSchemaBody) {
     const { email, password } = body;
 
-    console.log('AuthenticateController.handle', { email, password });
-
     const result = await this.authenticateUseCase.execute({
       email,
       password,
