@@ -1,8 +1,8 @@
 import { FetchRecentsCategoriesUseCase } from '@/domain/application/usecases/fetch-recents-categories.usecase';
-import { Public } from '@/infra/auth/public';
 import { Controller, Get, Query } from '@nestjs/common';
 import z from 'zod';
 import { CategoryPresenter } from '../presenters/category-presenter';
+import { Public } from '@/infra/auth/public';
 
 const fetchRecentsCategoriesSchemaParams = z.object({
   page: z.coerce.number().default(1),

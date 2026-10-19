@@ -1,8 +1,8 @@
-import { Public } from '@/infra/auth/public';
 import { Controller, Get, Query } from '@nestjs/common';
 import z from 'zod';
 import { FetchRecentsProductsUseCase } from '@/domain/application/usecases/fetch-recents-products.usecase';
 import { ProductPresenter } from '../presenters/product-presenter';
+import { Public } from '@/infra/auth/public';
 
 const fetchRecentsProductsSchemaParams = z.object({
   page: z.coerce.number().default(1),

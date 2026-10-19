@@ -1,8 +1,8 @@
 import { FetchRecentsUsersUseCase } from '@/domain/application/usecases/fetch-recents-users.usecase';
-import { Public } from '@/infra/auth/public';
 import { Controller, Get, Query } from '@nestjs/common';
 import z from 'zod';
 import { UserPresenter } from '../presenters/user-presenter';
+import { Public } from '@/infra/auth/public';
 
 const fetchRecentsUsersSchemaParams = z.object({
   page: z.coerce.number().default(1),

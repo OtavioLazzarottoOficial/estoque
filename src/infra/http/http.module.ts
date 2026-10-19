@@ -23,6 +23,8 @@ import { DecreaseInStockController } from './controllers/decrease-in-stock.contr
 import { DecreaseInStockUseCase } from '@/domain/application/usecases/decrease-in-stock-usecase';
 import { FetchRecentsCategoriesController } from './controllers/fetch-recents-categories.controller';
 import { FetchRecentsCategoriesUseCase } from '@/domain/application/usecases/fetch-recents-categories.usecase';
+import { DeleteProductController } from './controllers/delete-product.controller';
+import { DeleteProductUseCase } from '@/domain/application/usecases/delete-product-usecase';
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -38,6 +40,7 @@ import { FetchRecentsCategoriesUseCase } from '@/domain/application/usecases/fet
     GetByIdProductController,
     IncreaseInStockController,
     DecreaseInStockController,
+    DeleteProductController,
   ],
   providers: [
     CreateUserUseCase,
@@ -51,6 +54,7 @@ import { FetchRecentsCategoriesUseCase } from '@/domain/application/usecases/fet
     GetByIdProductUseCase,
     IncreaseInStockUseCase,
     DecreaseInStockUseCase,
+    DeleteProductUseCase,
   ],
 })
 export class HttpModule {}
