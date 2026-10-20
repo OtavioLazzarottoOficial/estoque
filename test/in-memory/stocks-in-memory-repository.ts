@@ -44,4 +44,20 @@ export class StocksInMemoryRepository implements StocksRepository {
 
     return stock;
   }
+
+  async getStockByProduct(productId: string): Promise<Stock | null> {
+    await new Promise((resolve) => {
+      setTimeout(resolve, 0);
+    });
+
+    const stockWithProduct = this.items.find(
+      (item) => item.productId.toString() === productId,
+    );
+
+    if (!stockWithProduct) {
+      return null;
+    }
+
+    return stockWithProduct;
+  }
 }

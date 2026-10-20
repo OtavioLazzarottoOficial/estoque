@@ -7,4 +7,5 @@ export abstract class StocksRepository {
   abstract save(stock: Stock): Promise<void>;
   abstract delete(stock: Stock): Promise<void>;
   abstract findById(id: string): Promise<Stock | null>;
+  abstract getStockByProduct(id: string): Promise<Stock | null>;
 }

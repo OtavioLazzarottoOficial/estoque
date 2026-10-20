@@ -25,6 +25,8 @@ import { FetchRecentsCategoriesController } from './controllers/fetch-recents-ca
 import { FetchRecentsCategoriesUseCase } from '@/domain/application/usecases/fetch-recents-categories.usecase';
 import { DeleteProductController } from './controllers/delete-product.controller';
 import { DeleteProductUseCase } from '@/domain/application/usecases/delete-product-usecase';
+import { GetStockByProdutUseCase } from '@/domain/application/usecases/get-stock-by-product';
+import { GetStockByProductController } from './controllers/get-stock-by-product.controller';
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -41,6 +43,7 @@ import { DeleteProductUseCase } from '@/domain/application/usecases/delete-produ
     IncreaseInStockController,
     DecreaseInStockController,
     DeleteProductController,
+    GetStockByProductController,
   ],
   providers: [
     CreateUserUseCase,
@@ -55,6 +58,7 @@ import { DeleteProductUseCase } from '@/domain/application/usecases/delete-produ
     IncreaseInStockUseCase,
     DecreaseInStockUseCase,
     DeleteProductUseCase,
+    GetStockByProdutUseCase,
   ],
 })
 export class HttpModule {}

@@ -49,4 +49,19 @@ export class PrismaStocksRepository implements StocksRepository {
 
     return PrismaStockMapper.toDomain(stock);
   }
+
+  async getStockByProduct(id: string): Promise<Stock | null> {
+    const stock = await this.prisma.stock.findUnique({
+      include: { product: true },
+      where: {
+        product_Id: id,
+      },
+    });
+
+    if (!stock) {
+      return null;
+    }
+
+    return PrismaStockMapper.toDomain(stock);
+  }
 }
