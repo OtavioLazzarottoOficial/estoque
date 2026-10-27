@@ -11,6 +11,7 @@ import {
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { UsersRepository } from '../repositories/users-repository';
 import { QuantityCannotBeLessThanQuantityMinError } from '@/domain/enterprise/entities/errors/quantity-cannot-be-less-than-quantity-min-error';
+import { UnitOfWork } from '../repositories/unit-of-work';
 
 type DecreaseInStockUseCaseRequestDTO = {
   stockId: string;
@@ -31,6 +32,7 @@ export class DecreaseInStockUseCase {
     private stocksRepository: StocksRepository,
     private movementsStockRepository: MovementsStockRepository,
     private usersRepository: UsersRepository,
+    private uow: UnitOfWork,
   ) {}
 
   async execute({
@@ -68,9 +70,10 @@ export class DecreaseInStockUseCase {
       return left(movementStockOrError.value);
     }
 
-    await this.movementsStockRepository.create(movementStockOrError.value);
-
-    await this.stocksRepository.save(stock);
+    await this.uow.execute(async () => {
+      await this.movementsStockRepository.create(movementStockOrError.value);
+      await this.stocksRepository.save(stock);
+    });
 
     return right(null);
   }

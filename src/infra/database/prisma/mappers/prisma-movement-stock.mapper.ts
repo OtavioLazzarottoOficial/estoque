@@ -6,7 +6,6 @@ import {
 import {
   Prisma,
   StockMovement as PrismaStockMovement,
-  Reason as PrismaReason,
 } from '@/generated/prisma/client';
 
 export class PrismaMovementStockMapper {
@@ -37,7 +36,7 @@ export class PrismaMovementStockMapper {
       stock_id: stockMovement.stockId.toString(),
       user_id: stockMovement.userId.toString(),
       quantity: stockMovement.quantity,
-      reason: stockMovement.reason as unknown as PrismaReason,
+      reason: stockMovement.reason,
       createdAt: stockMovement.createdAt,
     };
   }

@@ -30,14 +30,19 @@ enum Reason {
 }
 
 model User {
-  id             String          @id @default(uuid())
-  name           String
-  email          String          @unique
-  password       String
-  role           Roles
-  createdAt      DateTime        @default(now()) @map("created_at")
-  updatedAt      DateTime        @updatedAt @map("updated_at")
-  stockMovements StockMovement[]
+  id                 String          @id @default(uuid())
+  name               String
+  email              String          @unique
+  password           String
+  role               Roles
+  avatarStorageKey   String?         @map("avatar_storage_key")
+  avatarUrl          String?         @map("avatar_url")
+  avatarOriginalName String?         @map("avatar_original_name")
+  avatarMimeType     String?         @map("avatar_mime_type")
+  avatarSize         Int?            @map("avatar_size")
+  createdAt          DateTime        @default(now()) @map("created_at")
+  updatedAt          DateTime        @updatedAt @map("updated_at")
+  stockMovements     StockMovement[]
 }
 
 model Category {
@@ -49,6 +54,22 @@ model Category {
   products     Product[]
 }
 
+model ProductImage {
+  id           String   @id @default(uuid())
+  productId    String   @map("product_id")
+  product      Product  @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  storageKey   String   @unique @map("storage_key")
+  url          String   @map("url")
+  originalName String   @map("original_name")
+  mimeType     String   @map("mime_type")
+  size         Int
+  position     Int
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@unique([productId, position])
+  @@index([productId])
+}
+
 model Product {
   id             String          @id @default(uuid())
   sku            String          @unique
@@ -56,6 +77,7 @@ model Product {
   description    String
   price          Float
   status         Status
+  images         ProductImage[]
   category_Id    String
   category       Category        @relation(fields: [category_Id], references: [id])
   createdAt      DateTime        @default(now()) @map("created_at")

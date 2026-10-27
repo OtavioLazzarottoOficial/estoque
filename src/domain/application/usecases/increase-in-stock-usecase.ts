@@ -11,6 +11,7 @@ import {
 } from '@/domain/enterprise/entities/stockMovement';
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { UsersRepository } from '../repositories/users-repository';
+import { UnitOfWork } from '../repositories/unit-of-work';
 
 type IncreaseInStockUseCaseRequestDTO = {
   stockId: string;
@@ -31,6 +32,7 @@ export class IncreaseInStockUseCase {
     private stocksRepository: StocksRepository,
     private movementsStockRepository: MovementsStockRepository,
     private usersRepository: UsersRepository,
+    private uow: UnitOfWork,
   ) {}
 
   async execute({
@@ -68,9 +70,10 @@ export class IncreaseInStockUseCase {
       return left(movementStockOrError.value);
     }
 
-    await this.movementsStockRepository.create(movementStockOrError.value);
-
-    await this.stocksRepository.save(stock);
+    await this.uow.execute(async () => {
+      await this.movementsStockRepository.create(movementStockOrError.value);
+      await this.stocksRepository.save(stock);
+    });
 
     return right(null);
   }

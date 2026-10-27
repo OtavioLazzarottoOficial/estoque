@@ -53,7 +53,7 @@ export class PrismaCategoriesRepository implements CategoriesRepository {
         createdAt: 'asc',
       },
       skip: (page - 1) * 10,
-      take: 10,
+      take: 20,
     });
 
     // eslint-disable-next-line @typescript-eslint/unbound-method

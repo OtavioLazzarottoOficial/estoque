@@ -11,6 +11,8 @@ import { StocksRepository } from '@/domain/application/repositories/stocks-repos
 import { PrismaStocksRepository } from './prisma/repositories/prisma-stocks-repository';
 import { MovementsStockRepository } from '@/domain/application/repositories/movements-stock-repository';
 import { PrismaMovementsStockRepository } from './prisma/repositories/prisma-movements-stock-repository';
+import { UnitOfWork } from '@/domain/application/repositories/unit-of-work';
+import { PrismaUnitOfWork } from './prisma/prisma-unit-of-work';
 
 @Module({
   imports: [EnvModule],
@@ -36,6 +38,10 @@ import { PrismaMovementsStockRepository } from './prisma/repositories/prisma-mov
       provide: MovementsStockRepository,
       useClass: PrismaMovementsStockRepository,
     },
+    {
+      provide: UnitOfWork,
+      useClass: PrismaUnitOfWork,
+    },
   ],
   exports: [
     PrismaService,
@@ -44,6 +50,7 @@ import { PrismaMovementsStockRepository } from './prisma/repositories/prisma-mov
     ProductsRepository,
     StocksRepository,
     MovementsStockRepository,
+    UnitOfWork,
   ],
 })
 export class DatabaseModule {}

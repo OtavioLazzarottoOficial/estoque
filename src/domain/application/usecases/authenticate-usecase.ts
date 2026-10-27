@@ -43,7 +43,7 @@ export class AuthenticateUseCase {
     }
 
     const access_token = await this.encrypter.encrypty({
-      user_id: user.id,
+      sub: user.id.toString(),
       user_email: user.email,
     });
 

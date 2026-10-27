@@ -3,6 +3,7 @@ import z from 'zod';
 import { FetchRecentsProductsUseCase } from '@/domain/application/usecases/fetch-recents-products.usecase';
 import { ProductPresenter } from '../presenters/product-presenter';
 import { Public } from '@/infra/auth/public';
+import { ZodValidationPipe } from '../pipes/zod-validation-pipe';
 
 const fetchRecentsProductsSchemaParams = z.object({
   page: z.coerce.number().default(1),
@@ -12,6 +13,8 @@ type FetchRecentsProductsSchemaParams = z.infer<
   typeof fetchRecentsProductsSchemaParams
 >;
 
+const queryValidation = new ZodValidationPipe(fetchRecentsProductsSchemaParams);
+
 @Controller()
 export class FetchRecentsProductsController {
   constructor(
@@ -20,7 +23,7 @@ export class FetchRecentsProductsController {
 
   @Get('/products')
   @Public()
-  async handle(@Query() page: FetchRecentsProductsSchemaParams) {
+  async handle(@Query(queryValidation) page: FetchRecentsProductsSchemaParams) {
     const result = await this.fetchRecentsProductsUseCase.execute(page);
 
     const { value } = result;

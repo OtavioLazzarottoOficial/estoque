@@ -4,6 +4,15 @@ import { StocksRepository } from '@/domain/application/repositories/stocks-repos
 import { PrismaStockMapper } from '../mappers/prisma-stock.mapper';
 import { Stock } from '@/domain/enterprise/entities/stock';
 
+const stockInclude = {
+  product: {
+    include: {
+      category: true,
+      images: { orderBy: { position: 'asc' } },
+    },
+  },
+} as const;
+
 @Injectable()
 export class PrismaStocksRepository implements StocksRepository {
   constructor(private prisma: PrismaService) {}
@@ -32,12 +41,17 @@ export class PrismaStocksRepository implements StocksRepository {
     });
   }
 
-  delete(stock: Stock): Promise<void> {
-    throw new Error('Method not implemented.');
+  async delete(stock: Stock): Promise<void> {
+    await this.prisma.stock.delete({
+      where: {
+        id: stock.id.toString(),
+      },
+    });
   }
 
   async findById(id: string): Promise<Stock | null> {
     const stock = await this.prisma.stock.findUnique({
+      include: stockInclude,
       where: {
         id,
       },
@@ -52,7 +66,7 @@ export class PrismaStocksRepository implements StocksRepository {
 
   async getStockByProduct(id: string): Promise<Stock | null> {
     const stock = await this.prisma.stock.findUnique({
-      include: { product: true },
+      include: stockInclude,
       where: {
         product_Id: id,
       },

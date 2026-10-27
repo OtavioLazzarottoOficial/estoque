@@ -8,25 +8,30 @@ import {
   Param,
 } from '@nestjs/common';
 import z from 'zod';
-import { GetStockByProdutUseCase } from '@/domain/application/usecases/get-stock-by-product';
+import { GetStockByProductUseCase } from '@/domain/application/usecases/get-stock-by-product';
 import { StockPresenter } from '../presenters/stock-presenter';
+import { ZodValidationPipe } from '../pipes/zod-validation-pipe';
 
 const getStockByProductSchemaParam = z.object({
-  productId: z.uuid(),
+  productId: z.string().uuid(),
 });
 
 type GetStockByProductSchemaParam = z.infer<
   typeof getStockByProductSchemaParam
 >;
 
+const paramValidation = new ZodValidationPipe(getStockByProductSchemaParam);
+
 @Controller()
 export class GetStockByProductController {
-  constructor(private getStockByProdutUseCase: GetStockByProdutUseCase) {}
+  constructor(private getStockByProductUseCase: GetStockByProductUseCase) {}
 
   @Get('/stock/product/:productId')
   @Public()
-  async handle(@Param() { productId }: GetStockByProductSchemaParam) {
-    const result = await this.getStockByProdutUseCase.execute({ productId });
+  async handle(
+    @Param(paramValidation) { productId }: GetStockByProductSchemaParam,
+  ) {
+    const result = await this.getStockByProductUseCase.execute({ productId });
 
     if (result.isLeft()) {
       const error = result.value;

@@ -16,6 +16,15 @@ export class ProductPresenter {
             name: product.category.name,
           }
         : null,
+      images: product.images.map((image) => ({
+        id: image.id.toString(),
+        storageKey: image.storageKey,
+        originalName: image.file.originalName,
+        mimeType: image.file.mimeType,
+        size: image.file.size,
+        url: image.file.url,
+        createdAt: image.createdAt,
+      })),
       created_at: product.createdAt,
       updated_at: product.updatedAt,
     };

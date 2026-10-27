@@ -1,20 +1,20 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { makeProduct } from '../../../../test/factories/make-product';
 import { ResourceNotFoundError } from './errors/resource-not-found-error';
-import { GetStockByProdutUseCase } from './get-stock-by-product';
+import { GetStockByProductUseCase } from './get-stock-by-product';
 import { StocksInMemoryRepository } from '../../../../test/in-memory/stocks-in-memory-repository';
 import { ProductInMemoryRepository } from '../../../../test/in-memory/product-in-memory-repository';
 import { makeStock } from '../../../../test/factories/make-stock';
 
 let stocksInMemoryRepository: StocksInMemoryRepository;
 let inMemoryProductsRepository: ProductInMemoryRepository;
-let sut: GetStockByProdutUseCase;
+let sut: GetStockByProductUseCase;
 
 describe('GetStockByProductUseCase', () => {
   beforeEach(() => {
     stocksInMemoryRepository = new StocksInMemoryRepository();
     inMemoryProductsRepository = new ProductInMemoryRepository();
-    sut = new GetStockByProdutUseCase(stocksInMemoryRepository);
+    sut = new GetStockByProductUseCase(stocksInMemoryRepository);
   });
 
   it('Should not be able get a product by id invalid', async () => {

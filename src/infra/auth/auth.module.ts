@@ -6,10 +6,13 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { EnvService } from '../env/env.service';
 import { EnvModule } from '../env/env.module';
+import { RolesGuard } from './roles.guard';
+import { DatabaseModule } from '../database/database.module';
 
 @Module({
   imports: [
     PassportModule,
+    DatabaseModule,
     JwtModule.registerAsync({
       imports: [EnvModule],
       inject: [EnvService],
@@ -32,6 +35,10 @@ import { EnvModule } from '../env/env.module';
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
     },
   ],
 })

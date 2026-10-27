@@ -8,6 +8,13 @@ export class StockPresenter {
       quantityInStock: stock.quantityInStock,
       quantityMax: stock.quantityMax,
       quantityMin: stock.quantityMin,
+      product: stock.product
+        ? {
+            id: stock.product.id.toString(),
+            name: stock.product.name,
+            images: stock.product.images,
+          }
+        : null,
       createdAt: stock.createdAt,
       updatedAt: stock.updatedAt,
     };

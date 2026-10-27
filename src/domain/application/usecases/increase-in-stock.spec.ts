@@ -9,6 +9,7 @@ import { makeUser } from '../../../../test/factories/make-user';
 import { ResourceNotFoundError } from './errors/resource-not-found-error';
 import { QuantityCannotBeLessOrEqualThanZeroError } from '@/domain/enterprise/entities/errors/quantity-cannot-be-less-or-equal-than-zero-error';
 import { QuantityCannotBeMoreThanQuantityMaxError } from '@/domain/enterprise/entities/errors/quantity-cannot-be-more-than-quantity-max-error';
+import { InMemoryUnitOfWork } from '../../../../test/in-memory/in-memory-unit-of-work';
 
 let stocksInMemoryRepository: StocksInMemoryRepository;
 let usersInMemoryRepository: UsersInMemoryRepository;
@@ -20,10 +21,12 @@ describe('GetByIdProductUseCase', () => {
     stocksInMemoryRepository = new StocksInMemoryRepository();
     usersInMemoryRepository = new UsersInMemoryRepository();
     movementsStockInMemoryRepository = new MovementsStockInMemoryRepository();
+    const uow = new InMemoryUnitOfWork();
     sut = new IncreaseInStockUseCase(
       stocksInMemoryRepository,
       movementsStockInMemoryRepository,
       usersInMemoryRepository,
+      uow,
     );
   });
 

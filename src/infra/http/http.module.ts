@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from '../database/database.module';
 import { CryptographyModule } from '../cryptography/cryptography.module';
+import { StorageModule } from '../storage/storage.module';
 import { CreateUserController } from './controllers/create-user.controller';
 import { CreateUserUseCase } from '../../domain/application/usecases/create-user-usecase';
 import { FetchRecentsUsersController } from './controllers/fetch-recents-users.controller';
@@ -25,17 +26,32 @@ import { FetchRecentsCategoriesController } from './controllers/fetch-recents-ca
 import { FetchRecentsCategoriesUseCase } from '@/domain/application/usecases/fetch-recents-categories.usecase';
 import { DeleteProductController } from './controllers/delete-product.controller';
 import { DeleteProductUseCase } from '@/domain/application/usecases/delete-product-usecase';
-import { GetStockByProdutUseCase } from '@/domain/application/usecases/get-stock-by-product';
+import { GetStockByProductUseCase } from '@/domain/application/usecases/get-stock-by-product';
 import { GetStockByProductController } from './controllers/get-stock-by-product.controller';
+import { UploadProductImagesController } from './controllers/upload-product-images.controller';
+import { UploadProductImagesUseCase } from '@/domain/application/usecases/upload-product-images-usecase';
+import { DeleteProductImageController } from './controllers/delete-product-image.controller';
+import { DeleteProductImageUseCase } from '@/domain/application/usecases/delete-product-image-usecase';
+import { SetMainProductImageController } from './controllers/set-main-product-image.controller';
+import { SetMainProductImageUseCase } from '@/domain/application/usecases/set-main-product-image-usecase';
+import { UploadUserAvatarController } from './controllers/upload-user-avatar.controller';
+import { UploadUserAvatarUseCase } from '@/domain/application/usecases/upload-user-avatar-usecase';
+import { DeleteUserAvatarController } from './controllers/delete-user-avatar.controller';
+import { DeleteUserAvatarUseCase } from '@/domain/application/usecases/delete-user-avatar-usecase';
 
 @Module({
-  imports: [DatabaseModule, CryptographyModule],
+  imports: [DatabaseModule, CryptographyModule, StorageModule],
   controllers: [
     CreateUserController,
     FetchRecentsUsersController,
     AuthenticateController,
     CreateCategoryController,
     CreateProductController,
+    UploadProductImagesController,
+    DeleteProductImageController,
+    SetMainProductImageController,
+    UploadUserAvatarController,
+    DeleteUserAvatarController,
     FetchRecentsProductsController,
     FetchRecentsCategoriesController,
     CreateStockController,
@@ -51,6 +67,11 @@ import { GetStockByProductController } from './controllers/get-stock-by-product.
     AuthenticateUseCase,
     CreateCategoryUseCase,
     CreateProductUseCase,
+    UploadProductImagesUseCase,
+    DeleteProductImageUseCase,
+    SetMainProductImageUseCase,
+    UploadUserAvatarUseCase,
+    DeleteUserAvatarUseCase,
     FetchRecentsProductsUseCase,
     FetchRecentsCategoriesUseCase,
     CreateStockUseCase,
@@ -58,7 +79,7 @@ import { GetStockByProductController } from './controllers/get-stock-by-product.
     IncreaseInStockUseCase,
     DecreaseInStockUseCase,
     DeleteProductUseCase,
-    GetStockByProdutUseCase,
+    GetStockByProductUseCase,
   ],
 })
 export class HttpModule {}

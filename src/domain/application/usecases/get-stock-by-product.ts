@@ -4,19 +4,22 @@ import { Stock } from '@/domain/enterprise/entities/stock';
 import { Injectable } from '@nestjs/common';
 import { StocksRepository } from '../repositories/stocks-repository';
 
-type GetStockByProdutRequest = {
+type GetStockByProductRequest = {
   productId: string;
 };
 
-type GetStockByProdutResponse = Either<ResourceNotFoundError, { stock: Stock }>;
+type GetStockByProductResponse = Either<
+  ResourceNotFoundError,
+  { stock: Stock }
+>;
 
 @Injectable()
-export class GetStockByProdutUseCase {
+export class GetStockByProductUseCase {
   constructor(private stocksRepository: StocksRepository) {}
 
   async execute({
     productId,
-  }: GetStockByProdutRequest): Promise<GetStockByProdutResponse> {
+  }: GetStockByProductRequest): Promise<GetStockByProductResponse> {
     const stock = await this.stocksRepository.getStockByProduct(productId);
 
     if (!stock) {

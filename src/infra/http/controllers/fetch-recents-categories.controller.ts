@@ -3,6 +3,7 @@ import { Controller, Get, Query } from '@nestjs/common';
 import z from 'zod';
 import { CategoryPresenter } from '../presenters/category-presenter';
 import { Public } from '@/infra/auth/public';
+import { ZodValidationPipe } from '../pipes/zod-validation-pipe';
 
 const fetchRecentsCategoriesSchemaParams = z.object({
   page: z.coerce.number().default(1),
@@ -12,6 +13,10 @@ type FetchRecentsCategoriesSchemaParams = z.infer<
   typeof fetchRecentsCategoriesSchemaParams
 >;
 
+const queryValidation = new ZodValidationPipe(
+  fetchRecentsCategoriesSchemaParams,
+);
+
 @Controller()
 export class FetchRecentsCategoriesController {
   constructor(
@@ -20,7 +25,9 @@ export class FetchRecentsCategoriesController {
 
   @Get('/categories')
   @Public()
-  async handle(@Query() page: FetchRecentsCategoriesSchemaParams) {
+  async handle(
+    @Query(queryValidation) page: FetchRecentsCategoriesSchemaParams,
+  ) {
     const result = await this.fetchRecentsCategoriesUseCase.execute(page);
 
     const { value } = result;

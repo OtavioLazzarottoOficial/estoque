@@ -1,15 +1,23 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { Stock } from '@/domain/enterprise/entities/stock';
-import { Stock as PrismaStock, Prisma } from '@/generated/prisma/client';
+import { Prisma } from '@/generated/prisma/client';
+import { PrismaProductMapper } from './prisma-product.mapper';
+
+type PrismaStockWithProduct = Prisma.StockGetPayload<{
+  include: { product: { include: { category: true; images: true } } };
+}>;
 
 export class PrismaStockMapper {
-  static toDomain(raw: PrismaStock): Stock {
+  static toDomain(raw: PrismaStockWithProduct): Stock {
     const stockOrError = Stock.create(
       {
         productId: new UniqueEntityID(raw.product_Id),
         quantityInStock: raw.quantityInStock,
         quantityMax: raw.quantityMax,
         quantityMin: raw.quantityMin,
+        product: raw.product
+          ? PrismaProductMapper.toDomain(raw.product)
+          : undefined,
       },
       new UniqueEntityID(raw.id),
     );

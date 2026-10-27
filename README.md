@@ -31,6 +31,39 @@
 $ npm install
 ```
 
+## Armazenamento de imagens (Cloudflare R2)
+
+O projeto suporta dois drivers de armazenamento, definidos por `STORAGE_DRIVER`:
+
+- `local`: salva os arquivos em `STORAGE_LOCAL_PATH` e serve em `/uploads/...` (padrão).
+- `r2`: envia os arquivos para um bucket do Cloudflare R2 e salva a URL pública no banco.
+
+### Configuração do R2
+
+1. Crie um bucket no Cloudflare R2.
+2. Gere um token de API com permissão de leitura e escrita no bucket.
+3. Habilite o acesso público do bucket (`r2.dev`) ou configure um domínio customizado.
+4. Preencha o `.env`:
+
+```env
+STORAGE_DRIVER=r2
+CLOUDFLARE_ACCOUNT_ID="seu_account_id"
+AWS_ACCESS_KEY_ID="access_key_id_do_token"
+AWS_SECRET_ACCESS_KEY="secret_access_key_do_token"
+AWS_BUCKET_NAME="nome-do-bucket"
+CLOUDFLARE_R2_PUBLIC_URL="https://pub-xxxxxxxx.r2.dev"
+# Opcional (padrão: https://<account_id>.r2.cloudflarestorage.com)
+# AWS_ENDPOINT="https://seu_account_id.r2.cloudflarestorage.com"
+```
+
+O banco continua guardando a `storageKey` (necessária para excluir o objeto do R2) e também a `url` pública da imagem. As respostas da API expõem o campo `url`.
+
+### Migration
+
+```bash
+npx prisma migrate deploy
+```
+
 ## Compile and run the project
 
 ```bash

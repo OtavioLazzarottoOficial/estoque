@@ -10,12 +10,15 @@ import {
 } from '@nestjs/common';
 import z from 'zod';
 import { ProductPresenter } from '../presenters/product-presenter';
+import { ZodValidationPipe } from '../pipes/zod-validation-pipe';
 
 const getByIdProductSchemaParam = z.object({
-  id: z.uuid(),
+  id: z.string().uuid(),
 });
 
 type GetByIdProductSchemaParam = z.infer<typeof getByIdProductSchemaParam>;
+
+const paramValidation = new ZodValidationPipe(getByIdProductSchemaParam);
 
 @Controller()
 export class GetByIdProductController {
@@ -23,7 +26,7 @@ export class GetByIdProductController {
 
   @Get('/product/:id')
   @Public()
-  async handle(@Param() { id }: GetByIdProductSchemaParam) {
+  async handle(@Param(paramValidation) { id }: GetByIdProductSchemaParam) {
     const result = await this.getByIdProductUseCase.execute({ id });
 
     if (result.isLeft()) {

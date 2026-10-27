@@ -7,12 +7,14 @@ import { QuantityCannotBeLessThanQuantityMinError } from './errors/quantity-cann
 import { QuantityCannotBeMoreThanQuantityMaxError } from './errors/quantity-cannot-be-more-than-quantity-max-error';
 import { QuantityMaxCannotBeLessThanQuantityMinError } from './errors/quantity-max-cannot-be-less-than-quantity-min-error';
 import { QuantityMinCannotBeMoreThanQuantityMaxError } from './errors/quantity-min-cannot-be-more-than-quantity-max-error';
+import { Product } from './product';
 
 export type StockProps = {
   productId: UniqueEntityID;
   quantityInStock: number;
   quantityMax: number;
   quantityMin: number;
+  product?: Product;
   createdAt: Date;
   updatedAt: Date | null;
 };
@@ -32,6 +34,10 @@ export class Stock extends AggregateRoot<StockProps> {
 
   get quantityMin() {
     return this.props.quantityMin;
+  }
+
+  get product() {
+    return this.props.product ?? undefined;
   }
 
   get createdAt() {

@@ -31,7 +31,7 @@ export class CategoriesInMemoryRepository implements CategoriesRepository {
 
     this.items.splice(index, 1);
   }
-  
+
   async findById(id: string): Promise<Category | null> {
     await new Promise((resolve) => {
       setTimeout(resolve, 0);
